@@ -105,6 +105,42 @@ Route groups are a powerful feature in Expo Router that help organize related sc
    - `(modals)` - For modal screens
    - `(drawer)` - For drawer navigation screens
 
+### Vector Icons
+
+Expo provides a comprehensive icon library through `@expo/vector-icons`, which includes popular icon sets:
+
+1. **Available Icon Sets**
+   - MaterialIcons
+   - FontAwesome
+   - Ionicons
+   - Feather
+   - AntDesign
+   - And many more
+
+2. **Usage Example**
+   ```jsx
+   import { MaterialIcons } from '@expo/vector-icons';
+   
+   function MyComponent() {
+     return (
+       <MaterialIcons name="home" size={24} color="black" />
+     );
+   }
+   ```
+
+3. **Features**
+   - High-quality vector icons
+   - Consistent rendering across platforms
+   - Easy to style and customize
+   - Extensive icon collection
+   - TypeScript support
+
+4. **Icon Explorer**
+   - Browse all available icons at [icons.expo.fyi](https://icons.expo.fyi/Index)
+   - Search by name or category
+   - Preview icons in different sizes and colors
+   - Copy import statements directly by choosing the icon.
+
 ## Key Benefits
 - Faster development cycle
 - Easier onboarding for new developers

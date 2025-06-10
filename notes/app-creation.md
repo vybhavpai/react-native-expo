@@ -84,3 +84,40 @@ npm run reset-project
 This command will:
 - Clear the project's cache
 - Reset the project to a clean state
+
+### App Building Steps
+
+1. **Initial Code Setup**
+   ```bash
+   # Install required dependencies
+   npm install @react-navigation/native @react-navigation/native-stack
+   npm install expo-router
+   ```
+
+2. **Navigation Structure**
+   - Create route groups in `src/app/`:
+     ```
+     src/app/
+     ├── (tabs)/           # Tab navigation
+     │   ├── _layout.tsx   # Tab configuration
+     │   ├── index.tsx     # Home tab
+     │   └── profile.tsx   # Profile tab
+     └── (auth)/           # Authentication screens
+         ├── _layout.tsx   # Auth layout
+         └── login.tsx     # Login screen
+     ```
+
+3. **Layout Configuration**
+   ```jsx
+   // src/app/_layout.tsx
+   import { Stack } from 'expo-router';
+
+   export default function Layout() {
+     return (
+       <Stack>
+         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+       </Stack>
+     );
+   }
+   ```
