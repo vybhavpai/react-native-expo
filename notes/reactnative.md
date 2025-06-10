@@ -117,4 +117,47 @@ function MyComponent() {
   - `horizontal` (for horizontal scrolling)
   - `showsVerticalScrollIndicator`
   - `onScroll`
-  - `refreshControl` (for pull-to-refresh) 
+  - `refreshControl` (for pull-to-refresh)
+
+## StyleSheet
+
+### Overview
+The `StyleSheet` API is React Native's way of creating and managing styles. It's similar to CSS but optimized for mobile performance.
+
+### Basic Example
+
+```jsx
+import { StyleSheet, View, Text } from 'react-native';
+
+function MyComponent() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>Styled Component</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  text: {
+    fontSize: 16,
+    color: '#000',
+    fontWeight: 'bold',
+  },
+});
+```
+
+### Key Points
+- Better performance than inline styles
+- Type checking and validation
+- Style inheritance and composition
+- Common style properties:
+  - Layout: `flex`, `padding`, `margin`
+  - Position: `position`, `top`, `left`
+  - Appearance: `backgroundColor`, `borderRadius`
+  - Text: `fontSize`, `color`, `fontWeight`
+- Style composition using arrays: `style={[styles.base, styles.override]}` 

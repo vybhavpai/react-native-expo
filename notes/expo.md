@@ -43,6 +43,68 @@ Expo is a framework and platform built around React Native that simplifies the d
 - Over-the-air updates
 - Build configuration management
 
+### File-Based Navigation
+
+Expo provides a powerful file-based routing system that simplifies navigation setup:
+
+1. **Directory Structure**
+   ```
+   app/
+   ├── _layout.tsx      # Root layout configuration
+   ├── index.tsx        # Home screen (/)
+   ├── profile.tsx      # Profile screen (/profile)
+   └── settings/
+       ├── _layout.tsx  # Settings layout
+       └── index.tsx    # Settings screen (/settings)
+   ```
+
+2. **Key Features**
+   - Automatic route generation based on file structure
+   - Nested navigation through folder structure
+   - Layout files (`_layout.tsx`) for shared UI elements
+   - Dynamic routes with `[param]` syntax
+   - Type-safe navigation with TypeScript
+
+3. **Benefits**
+   - No manual route configuration needed
+   - Intuitive file organization
+   - Easy to maintain and scale
+   - Built-in type safety
+   - Automatic code splitting
+
+### Navigation in Expo
+
+#### Route Groups
+Route groups are a powerful feature in Expo Router that help organize related screens without affecting the URL structure:
+
+1. **Syntax**
+   - Folders wrapped in parentheses `()` are route groups
+   - Example: `(tabs)`, `(auth)`, `(modals)`
+   - The group name is not included in the URL
+
+2. **Example Structure**
+   ```
+   app/
+   ├── (tabs)/           # Group for tab navigation
+   │   ├── index.tsx    # URL: /
+   │   └── profile.tsx  # URL: /profile
+   └── (auth)/          # Group for auth screens
+       └── login.tsx    # URL: /login
+   ```
+
+3. **Benefits**
+   - Clean URLs (no group names in the path)
+   - Better organization of related screens
+   - Shared layouts for grouped screens
+   - Multiple index files in different groups
+   - Logical grouping of features
+
+4. **Common Use Cases**
+   - `(tabs)` - For tab-based navigation
+   - `(auth)` - For authentication-related screens
+   - `(modals)` - For modal screens
+   - `(drawer)` - For drawer navigation screens
+
 ## Key Benefits
 - Faster development cycle
 - Easier onboarding for new developers
