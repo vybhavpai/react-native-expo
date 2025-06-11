@@ -1,16 +1,47 @@
 import { KeyboardAvoidingView, Platform, View, StyleSheet } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, Text, TextInput, useTheme } from 'react-native-paper';
 import React from 'react';
+import { useAuth } from '@/lib/auth-context';
+import { useRouter } from 'expo-router';
 
 export default function AuthScreen() {
   const [isSignUp, setIsSignUp] = React.useState<Boolean>(false);
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
+  const [error, setError] = React.useState<string | null>('');
+
+  const theme = useTheme();
+  const { signUp, signIn } = useAuth();
+  const router = useRouter();
+
   const handleSwitchMode = () => {
     setIsSignUp(prev => !prev);
   };
-  const handleAuth = () => {
-    console.log('***LOG*** handleAuth');
+  const handleAuth = async () => {
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long');
+      return;
+    }
+    setError(null);
+    if (isSignUp) {
+      const error = await signUp(email, password);
+      if (error) {
+        setError(error);
+        return;
+      }
+    } else {
+      const error = await signIn(email, password);
+      if (error) {
+        setError(error);
+        return;
+      }
+    }
+    router.replace('/');
   };
   return (
     <KeyboardAvoidingView
@@ -33,12 +64,13 @@ export default function AuthScreen() {
         <TextInput
           label="Password"
           placeholder="Password"
-          keyboardType="visible-password"
+          secureTextEntry={true}
           mode="outlined"
           style={styles.input}
           value={password}
           onChangeText={setPassword}
         />
+        {error && <Text style={{ color: theme.colors.error }}>{error}</Text>}
         <Button mode="contained" onPress={handleAuth} style={styles.button}>
           {isSignUp ? 'Create Account' : 'Sign in'}
         </Button>
