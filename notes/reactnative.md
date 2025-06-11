@@ -166,6 +166,34 @@ function MyComponent() {
   - Consider platform-specific behavior
   - Test on both iOS and Android
 
+## SafeAreaProvider
+
+### Overview
+
+The `SafeAreaProvider` component ensures that content is displayed within the safe area boundaries of a device, avoiding notches, status bars, and other system UI elements.
+
+### Basic Example
+
+```jsx
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+function MyComponent() {
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>{/* Your app content */}</SafeAreaView>
+    </SafeAreaProvider>
+  );
+}
+```
+
+### Key Points
+
+- Must wrap your entire app
+- Provides safe area insets to child components
+- Handles different device notches and system UI
+- Works with both iOS and Android
+- Can be used with `useSafeAreaInsets` hook for custom insets
+
 ## StyleSheet
 
 ### Overview

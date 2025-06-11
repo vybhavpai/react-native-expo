@@ -133,6 +133,42 @@ This command will:
    }
    ```
 
+### Best Practices
+
+1. **Provider Setup**
+
+   ```jsx
+   // src/app/_layout.tsx
+   import { SafeAreaProvider } from 'react-native-safe-area-context';
+   import { PaperProvider } from 'react-native-paper';
+   import { Stack } from 'expo-router';
+
+   export default function RootLayout() {
+     return (
+       <SafeAreaProvider>
+         <PaperProvider>
+           <Stack>
+             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+           </Stack>
+         </PaperProvider>
+       </SafeAreaProvider>
+     );
+   }
+   ```
+
+2. **Provider Order**
+
+   - `SafeAreaProvider` should be the outermost provider
+   - `PaperProvider` should wrap navigation components
+   - Other providers (Auth, Theme, etc.) should be placed between these
+
+3. **Key Benefits**
+   - Safe area handling for all devices
+   - Consistent theming across the app
+   - Proper navigation structure
+   - Type safety with TypeScript
+
 ### Authentication and Route Guards
 
 1. **Route Guard Concept**
