@@ -11,6 +11,7 @@ npx create-expo-app MyApp
 ```
 
 This command:
+
 - Creates a new directory called `MyApp`
 - Initializes a new React Native project
 - Installs all required dependencies
@@ -20,6 +21,7 @@ This command:
 ### Project Structure
 
 After creation, your project will have this basic structure:
+
 ```
 MyApp/
 ├── src/                    # Source code directory
@@ -38,12 +40,13 @@ MyApp/
 #### Entry Points
 
 1. **index.tsx** (in src/app/)
+
    - The main entry point of your application
    - Renders the root component
    - Sets up any global providers or configurations
    - Typically contains the initial app setup and navigation structure
 
-2. **_layout.tsx** (in src/app/)
+2. **\_layout.tsx** (in src/app/)
    - Defines the layout structure for your app
    - Handles navigation configuration
    - Sets up global UI elements like headers, tab bars, or drawers
@@ -54,16 +57,19 @@ MyApp/
 To run the app on your physical device:
 
 1. **Install Expo Go**
+
    - Download "Expo Go" from:
      - [App Store](https://apps.apple.com/app/expo-go/id982107779) (iOS)
      - [Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent) (Android)
 
 2. **Start the Development Server**
+
    ```bash
    npx expo start
    ```
 
 3. **Connect Your Phone**
+
    - Make sure your phone and computer are on the same WiFi network
    - Open Expo Go on your phone
    - Scan the QR code shown in your terminal
@@ -77,17 +83,20 @@ To run the app on your physical device:
 ### Project Reset
 
 If you need to reset the project to its initial state (useful when following tutorials or starting over):
+
 ```bash
 npm run reset-project
 ```
 
 This command will:
+
 - Clear the project's cache
 - Reset the project to a clean state
 
 ### App Building Steps
 
 1. **Initial Code Setup**
+
    ```bash
    # Install required dependencies
    npm install @react-navigation/native @react-navigation/native-stack
@@ -95,6 +104,7 @@ This command will:
    ```
 
 2. **Navigation Structure**
+
    - Create route groups in `src/app/`:
      ```
      src/app/
@@ -108,6 +118,7 @@ This command will:
      ```
 
 3. **Layout Configuration**
+
    ```jsx
    // src/app/_layout.tsx
    import { Stack } from 'expo-router';
@@ -121,3 +132,60 @@ This command will:
      );
    }
    ```
+
+### Authentication and Route Guards
+
+1. **Route Guard Concept**
+
+   - Route guards protect routes from unauthorized access
+   - They can redirect users based on authentication status
+   - Implemented using Expo Router's middleware or layout components
+
+2. **Implementation Example**
+
+   ```jsx
+   // src/app/_layout.tsx
+   import { Redirect, Stack } from 'expo-router';
+   import { useAuth } from '../hooks/useAuth'; // Custom auth hook
+
+   export default function RootLayout() {
+     const { isAuthenticated } = useAuth();
+
+     // Redirect to login if not authenticated
+     if (!isAuthenticated) {
+       return <Redirect href="/login" />;
+     }
+
+     return (
+       <Stack>
+         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+       </Stack>
+     );
+   }
+   ```
+
+3. **Group-Level Protection**
+
+   ```jsx
+   // src/app/(protected)/_layout.tsx
+   import { Redirect } from 'expo-router';
+   import { useAuth } from '../../hooks/useAuth';
+
+   export default function ProtectedLayout() {
+     const { isAuthenticated } = useAuth();
+
+     if (!isAuthenticated) {
+       return <Redirect href="/login" />;
+     }
+
+     return <Stack />;
+   }
+   ```
+
+4. **Best Practices**
+   - Implement guards at the highest necessary level
+   - Use route groups to organize protected routes
+   - Handle loading states during auth checks
+   - Provide clear feedback for unauthorized access
+   - Consider implementing role-based access control
