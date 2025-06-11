@@ -12,3 +12,8 @@ export const HABITS_COLLECTION_ID =
   process.env.EXPO_PUBLIC_APPWRITE_HABITS_COLLECTION_ID!;
 
 export const databases = new Databases(client);
+
+export interface RealtimeResponse {
+  events: string[];
+  payload: any;
+}

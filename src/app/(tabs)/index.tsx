@@ -1,7 +1,13 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Button, Surface } from 'react-native-paper';
 import { useAuth } from '@/lib/auth-context';
-import { DATABASE_ID, HABITS_COLLECTION_ID, databases } from '@/lib/appwrite';
+import {
+  DATABASE_ID,
+  HABITS_COLLECTION_ID,
+  RealtimeResponse,
+  client,
+  databases,
+} from '@/lib/appwrite';
 import { Query } from 'react-native-appwrite';
 import { useEffect, useState } from 'react';
 import { Habit } from '@/models/database.type';
@@ -27,7 +33,37 @@ export default function Index() {
   };
 
   useEffect(() => {
-    fetchHabits();
+    if (user) {
+      const channel = `databases.${DATABASE_ID}.collections.${HABITS_COLLECTION_ID}.documents`;
+      const habitsSubscription = client.subscribe(
+        channel,
+        (response: RealtimeResponse) => {
+          if (
+            response.events.includes(
+              'databases.*.collections.*.documents.*.create'
+            )
+          ) {
+            fetchHabits();
+          } else if (
+            response.events.includes(
+              'databases.*.collections.*.documents.*.update'
+            )
+          ) {
+            fetchHabits();
+          } else if (
+            response.events.includes(
+              'databases.*.collections.*.documents.*.delete'
+            )
+          ) {
+            fetchHabits();
+          }
+        }
+      );
+      fetchHabits();
+      return () => {
+        habitsSubscription();
+      };
+    }
   }, [user]);
 
   return (
@@ -40,7 +76,10 @@ export default function Index() {
       </View>
 
       {habits?.length > 0 ? (
-        <View style={styles.habitsContainer}>
+        <ScrollView
+          style={styles.habitsContainer}
+          showsVerticalScrollIndicator={false}
+        >
           {habits.map((habit, index) => (
             <Surface style={styles.card} elevation={0}>
               <View key={index} style={styles.cardContainer}>
@@ -68,7 +107,7 @@ export default function Index() {
               </View>
             </Surface>
           ))}
-        </View>
+        </ScrollView>
       ) : (
         <View style={styles.noHabitsContainer}>
           <Text style={styles.noHabitsText}>

@@ -98,11 +98,55 @@ npx expo install react-native-appwrite
    const databases = new Databases(client);
 
    // Create document
-   await databases.createDocument('databaseId', 'collectionId', 'unique()', { field: 'value' });
+   await databases.createDocument('databaseId', 'collectionId', 'unique()', {
+     field: 'value',
+   });
 
    // List documents
-   const documents = await databases.listDocuments('databaseId', 'collectionId');
+   const documents = await databases.listDocuments(
+     'databaseId',
+     'collectionId'
+   );
    ```
+
+## Real-time Subscriptions
+
+1. **Overview**
+
+   - Appwrite provides real-time subscription capabilities
+   - Allows listening to database changes without manual polling
+   - Supports document creation, updates, and deletion events
+
+2. **Implementation**
+
+   ```typescript
+   // Subscribe to collection changes
+   const subscription = client.subscribe(
+     `databases.${DATABASE_ID}.collections.${COLLECTION_ID}.documents`,
+     response => {
+       // Handle real-time updates
+       // response.payload contains the changed document
+       // response.events contains the type of change (create, update, delete)
+     }
+   );
+
+   // Cleanup subscription
+   subscription.unsubscribe();
+   ```
+
+3. **Event Types**
+
+   - `create`: When a new document is created
+   - `update`: When an existing document is modified
+   - `delete`: When a document is removed
+   - `all`: Listen to all events
+
+4. **Best Practices**
+   - Subscribe in useEffect to manage subscription lifecycle
+   - Always unsubscribe when component unmounts
+   - Handle different event types appropriately
+   - Update local state based on subscription events
+   - Implement error handling for subscription failures
 
 ## Security Considerations
 
