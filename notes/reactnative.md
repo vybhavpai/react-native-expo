@@ -279,6 +279,68 @@ function MyComponent() {
 - Bottom Sheets
 - Navigation Components
 
+### React Native Gesture Handler
+
+React Native Gesture Handler is a powerful library that provides native-driven gesture management and interaction handling for React Native.
+
+#### Key Features
+
+- Native-driven gesture system
+- Support for multiple simultaneous gestures
+- Built-in gesture components
+- Smooth animations and transitions
+- Better performance than JS-based gesture systems
+
+#### Basic Example
+
+```jsx
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import Animated, { useAnimatedGestureHandler } from 'react-native-reanimated';
+
+function MyComponent() {
+  const gestureHandler = useAnimatedGestureHandler({
+    onStart: (_, ctx) => {
+      // Handle gesture start
+    },
+    onActive: (event, ctx) => {
+      // Handle active gesture
+    },
+    onEnd: (_, ctx) => {
+      // Handle gesture end
+    },
+  });
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PanGestureHandler onGestureEvent={gestureHandler}>
+        <Animated.View
+          style={{ width: 100, height: 100, backgroundColor: 'blue' }}
+        />
+      </PanGestureHandler>
+    </GestureHandlerRootView>
+  );
+}
+```
+
+#### Common Gestures
+
+- Pan (drag)
+- Pinch
+- Rotation
+- Tap
+- Long press
+- Swipe
+- Fling
+
+#### Best Practices
+
+- Always wrap your app with `GestureHandlerRootView`
+- Use with `react-native-reanimated` for smooth animations
+- Handle gesture conflicts appropriately
+- Consider platform-specific behavior
+- Test gestures on both iOS and Android
+
 ### Best Practices
 
 - Choose libraries with active maintenance

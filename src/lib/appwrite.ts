@@ -10,6 +10,8 @@ export const account = new Account(client);
 export const DATABASE_ID = process.env.EXPO_PUBLIC_APPWRITE_DB!;
 export const HABITS_COLLECTION_ID =
   process.env.EXPO_PUBLIC_APPWRITE_HABITS_COLLECTION_ID!;
+export const HABIT_COMPLETIONS_COLLECTION_ID =
+  process.env.EXPO_PUBLIC_APPWRITE_HABIT_COMPLETIONS_COLLECTION_ID!;
 
 export const databases = new Databases(client);
 
