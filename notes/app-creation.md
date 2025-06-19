@@ -26,10 +26,12 @@ After creation, your project will have this basic structure:
 MyApp/
 ├── src/                    # Source code directory
 │   ├── app/               # Main application screens and navigation
-│   ├── components/        # Reusable UI components
-│   ├── constants/         # App-wide constants and configuration
-│   ├── hooks/            # Custom React hooks
-│   └── assets/           # Images, fonts, and other static files
+│   │   ├── _layout.tsx   # Tab configuration
+│   │   ├── index.tsx     # Home tab
+│   │   └── profile.tsx   # Profile tab
+│   └── (auth)/           # Authentication screens
+│       ├── _layout.tsx   # Auth layout
+│       └── login.tsx     # Login screen
 ├── app.json              # Expo configuration
 ├── package.json          # Project metadata and dependencies
 └── tsconfig.json         # TypeScript configuration
@@ -225,3 +227,137 @@ This command will:
    - Handle loading states during auth checks
    - Provide clear feedback for unauthorized access
    - Consider implementing role-based access control
+
+### Theme and Component Setup
+
+1. **Theme Configuration**
+
+   ```jsx
+   // src/theme/index.ts
+   import { MD3LightTheme, MD3DarkTheme } from 'react-native-paper';
+
+   export const lightTheme = {
+     ...MD3LightTheme,
+     colors: {
+       ...MD3LightTheme.colors,
+       primary: '#6200ee',
+       secondary: '#03dac6',
+       // Add custom colors here
+     },
+   };
+
+   export const darkTheme = {
+     ...MD3DarkTheme,
+     colors: {
+       ...MD3DarkTheme.colors,
+       primary: '#bb86fc',
+       secondary: '#03dac6',
+       // Add custom colors here
+     },
+   };
+   ```
+
+2. **Provider Setup**
+
+   ```jsx
+   // src/app/_layout.tsx
+   import { PaperProvider } from 'react-native-paper';
+   import { lightTheme } from '@/theme';
+
+   export default function RootLayout() {
+     return (
+       <PaperProvider theme={lightTheme}>
+         {/* Your app content */}
+       </PaperProvider>
+     );
+   }
+   ```
+
+3. **Component Organization**
+
+   ```
+   src/
+   ├── components/
+   │   ├── common/           # Reusable components
+   │   │   ├── Button.tsx
+   │   │   ├── Input.tsx
+   │   │   └── Card.tsx
+   │   ├── forms/           # Form-specific components
+   │   │   ├── LoginForm.tsx
+   │   │   └── SignupForm.tsx
+   │   └── layout/          # Layout components
+   │       ├── Header.tsx
+   │       └── Footer.tsx
+   ```
+
+4. **Custom Component Example**
+
+   ```jsx
+   // src/components/common/CustomButton.tsx
+   import React from 'react';
+   import { Button, ButtonProps } from 'react-native-paper';
+   import { StyleSheet } from 'react-native';
+
+   interface CustomButtonProps extends ButtonProps {
+     variant?: 'primary' | 'secondary' | 'outline';
+   }
+
+   export const CustomButton: React.FC<CustomButtonProps> = ({
+     variant = 'primary',
+     style,
+     ...props
+   }) => {
+     return (
+       <Button
+         mode={variant === 'outline' ? 'outlined' : 'contained'}
+         style={[styles.button, style]}
+         {...props}
+       />
+     );
+   };
+
+   const styles = StyleSheet.create({
+     button: {
+       borderRadius: 8,
+       marginVertical: 8,
+     },
+   });
+   ```
+
+5. **Theme Usage in Components**
+
+   ```jsx
+   // Using theme in components
+   import { useTheme } from 'react-native-paper';
+   import { StyleSheet, View } from 'react-native';
+
+   function MyComponent() {
+     const theme = useTheme();
+
+     return (
+       <View
+         style={[
+           styles.container,
+           { backgroundColor: theme.colors.background },
+         ]}
+       >
+         {/* Component content */}
+       </View>
+     );
+   }
+
+   const styles = StyleSheet.create({
+     container: {
+       padding: 16,
+     },
+   });
+   ```
+
+6. **Best Practices**
+   - Use consistent spacing and sizing
+   - Create reusable component variants
+   - Implement proper TypeScript interfaces
+   - Use theme colors for consistency
+   - Keep components focused and single-purpose
+   - Implement proper prop validation
+   - Use composition over inheritance
